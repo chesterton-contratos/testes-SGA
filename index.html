@@ -26,7 +26,7 @@
   --red:     #D42020;
   --white:   #F0F4FF;
   --white2:  #B8C2D8;
-  --muted:   #5A6480;
+  --muted:   #8898B8;
   --t: 0.22s ease;
   --t-slow: 0.5s cubic-bezier(0.16,1,0.3,1);
   --radius: 12px;
@@ -1079,14 +1079,14 @@ footer{
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  filter: sepia(0.72) grayscale(0.52) brightness(0.28) contrast(1.08);
+  filter: sepia(0.30) grayscale(0.18) brightness(0.58) contrast(1.04);
   display: block;
 }
 /* Dark tinted sepia overlay */
 .hero-video-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(14, 8, 4, 0.52);
+  background: rgba(14, 8, 4, 0.25);
   z-index: 1;
   mix-blend-mode: multiply;
 }
@@ -1689,7 +1689,6 @@ footer{
   <div class="hero-video-overlay"></div>
   <div class="hero-video-vignette"></div>
   <div class="hero-video-fade"></div>
-  <div class="hero-video-edge"></div>
 </div>
 
   <div class="hero-inner">
@@ -3348,7 +3347,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     .pbi-section-sub {
       font-size: 14px;
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.68);
       max-width: 480px;
       margin: 0 auto;
     }
@@ -3376,7 +3375,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     .pbi-gate-hint {
       font-size: 12px;
-      color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.58);
       margin-bottom: 24px;
     }
     .pbi-input-wrap {
@@ -3528,7 +3527,7 @@ document.addEventListener('DOMContentLoaded', () => {
       border: none;
       border-left: 3px solid transparent;
       background: transparent;
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.72);
       font-size: 12.5px;
       font-weight: 600;
       cursor: pointer;
@@ -3546,9 +3545,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     .pbi-tab.active {
       border-left-color: var(--tab-color, #F5C200);
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.12);
       color: #fff;
-      box-shadow: inset 0 0 20px rgba(245,194,0,0.05);
+      box-shadow: inset 0 0 28px rgba(245,194,0,0.08), inset 4px 0 16px rgba(245,194,0,0.07);
+      font-weight: 700;
     }
     .pbi-tab-dot {
       width: 7px; height: 7px;
@@ -3994,7 +3994,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     .sga-section-sub {
       font-size: 14px;
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.68);
       max-width: 480px;
       margin: 0 auto;
     }
@@ -4012,7 +4012,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     .sga-gate-icon { font-size: 36px; margin-bottom: 14px; }
     .sga-gate-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-    .sga-gate-hint  { font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 24px; }
+    .sga-gate-hint  { font-size: 12px; color: rgba(255,255,255,0.58); margin-bottom: 24px; }
     .sga-input-wrap { position: relative; margin-bottom: 16px; }
     #sga-password-input {
       width: 100%;
@@ -5503,6 +5503,22 @@ document.addEventListener('DOMContentLoaded', () => {
 .block-btn:hover::before { transform: scaleY(1); }
 .block-btn:hover::after  { opacity: 1; }
 .block-btn:active { transform: translateY(-1px); }
+.block-btn-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(245,194,0,0.18);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+  margin-bottom: 4px;
+  flex-shrink: 0;
+  transition: background 0.3s, border-color 0.3s;
+}
+.block-btn-icon svg { width: 15px; height: 15px; }
+.block-btn:hover .block-btn-icon {
+  background: rgba(245,194,0,0.18);
+  border-color: rgba(245,194,0,0.40);
+}
 .block-btn-index {
   font-family: "Space Mono", monospace;
   font-size: 9px; letter-spacing: 2px;
@@ -5703,14 +5719,14 @@ document.addEventListener('DOMContentLoaded', () => {
 (function() {
   // Config: 8 sections
   var ACC_CONF = [
-    { id: 'entregamos',       label: 'O que Entregamos',                    tag: 'Nossa Entrega'    },
-    { id: 'ecossistema',      label: 'Ecossistema Digital',                 tag: 'Plataforma'       },
-    { id: 'contratos',        label: 'Modelos Contratuais e Jornada',       tag: 'Portfólio'        },
-    { id: 'contratos-ativos', label: 'Clientes & Contratos Ativos',         tag: 'Presença'         },
-    { id: 'job-section',      label: 'Job Description',                     tag: 'RH'               },
-    { id: 'pbi-section',      label: 'Relatórios',                          tag: 'Power BI'         },
-    { id: 'sga-section',      label: 'SGA — Sistema de Gestão de Ativos',   tag: 'Acesso'           },
-    { id: 'matriz-section',   label: 'Matriz de Contratos Chesterton',      tag: 'Ferramenta'       }
+    { id: 'entregamos',       label: 'O que Entregamos',                    tag: 'Nossa Entrega',   icon: '<svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>' },
+    { id: 'ecossistema',      label: 'Ecossistema Digital',                 tag: 'Plataforma',      icon: '<svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><path d="M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>' },
+    { id: 'contratos',        label: 'Modelos Contratuais e Jornada',       tag: 'Portfólio',       icon: '<svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>' },
+    { id: 'contratos-ativos', label: 'Clientes & Contratos Ativos',         tag: 'Presença',        icon: '<svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+    { id: 'job-section',      label: 'Job Description',                     tag: 'RH',              icon: '<svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><circle cx="12" cy="13" r="2"/></svg>' },
+    { id: 'pbi-section',      label: 'Relatórios',                          tag: 'Power BI',        icon: '<svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 17v-5M12 17V9M16 17v-3"/></svg>' },
+    { id: 'sga-section',      label: 'SGA — Sistema de Gestão de Ativos',   tag: 'Acesso',          icon: '<svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 0 0 4.93 19.07m14.14 0A10 10 0 0 0 4.93 4.93"/><circle cx="12" cy="12" r="7"/></svg>' },
+    { id: 'matriz-section',   label: 'Matriz de Contratos Chesterton',      tag: 'Ferramenta',      icon: '<svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg>' }
   ];
 
   // ── Build blocks nav ──────────────────────────────────────────
@@ -5733,6 +5749,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.className = 'block-btn';
       btn.dataset.target = conf.id;
       btn.innerHTML =
+        '<div class="block-btn-icon">' + (conf.icon || '') + '</div>' +
         '<div class="block-btn-index">' + String(i + 1).padStart(2, '0') + '</div>' +
         '<div class="block-btn-name">' + conf.label + '</div>' +
         '<div class="block-btn-tag">' + conf.tag + '</div>' +
@@ -5755,15 +5772,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── Open modal ────────────────────────────────────────────────
   // ── Re-wire PBI tabs inside a cloned section ─────────────────
   function rewirePbiInClone(clone) {
-    var cloneTabs   = Array.prototype.slice.call(clone.querySelectorAll('.pbi-tab'));
     var clonePanels = Array.prototype.slice.call(clone.querySelectorAll('.pbi-panel'));
     var activeId    = null;
+
+    // FIX: sempre consulta DOM ao vivo para evitar referências stale após replaceChild
+    function getLiveTabs() {
+      return Array.prototype.slice.call(clone.querySelectorAll('.pbi-tab'));
+    }
 
     function activateCloneTab(id) {
       if (activeId === id) return;
       activeId = id;
 
-      cloneTabs.forEach(function(t) {
+      // Usa getLiveTabs() para garantir que os nós são os frescos (pós-replaceChild)
+      getLiveTabs().forEach(function(t) {
         t.classList.toggle('active', t.dataset.id === id);
       });
       clonePanels.forEach(function(p) {
@@ -5789,16 +5811,18 @@ document.addEventListener('DOMContentLoaded', () => {
       iframe.src = iframe.getAttribute('data-src') || '';
     }
 
-    cloneTabs.forEach(function(tab) {
-      // Remove stale inline onclick/listeners by cloning the node
+    // Substitui os nós para limpar listeners antigos
+    var originalTabs = Array.prototype.slice.call(clone.querySelectorAll('.pbi-tab'));
+    originalTabs.forEach(function(tab) {
       var fresh = tab.cloneNode(true);
       tab.parentNode.replaceChild(fresh, tab);
       fresh.addEventListener('click', function() {
         activateCloneTab(fresh.dataset.id);
       });
     });
-    // Re-query after node replacement
-    var freshTabs = Array.prototype.slice.call(clone.querySelectorAll('.pbi-tab'));
+
+    // Ativa o primeiro tab usando a query ao vivo (nós frescos garantidos)
+    var freshTabs = getLiveTabs();
     if (freshTabs.length > 0 && freshTabs[0].dataset.id) {
       activateCloneTab(freshTabs[0].dataset.id);
     }
