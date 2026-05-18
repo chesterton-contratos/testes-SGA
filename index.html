@@ -123,63 +123,6 @@ body{background:var(--black);color:var(--white);font-family:"DM Sans",sans-serif
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
 
 /* ── HERO IMAGE SHOWCASE ──────────────────────────────── */
-.hero-image-showcase {
-  position: relative;
-  max-width: 1300px;
-  margin: 44px auto 0;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(245,194,0,0.12);
-}
-.hero-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  filter: saturate(0.88) brightness(0.85) contrast(1.05);
-  transition: filter 0.6s ease, transform 0.8s cubic-bezier(0.16,1,0.3,1);
-}
-.hero-image-showcase:hover .hero-img {
-  filter: saturate(1.0) brightness(0.95) contrast(1.05);
-  transform: scale(1.015);
-}
-.hero-img-overlay {
-  position: absolute; inset: 0;
-  background:
-    linear-gradient(180deg, rgba(8,10,15,0.55) 0%, transparent 30%, transparent 65%, rgba(8,10,15,0.75) 100%),
-    linear-gradient(90deg, rgba(245,194,0,0.06) 0%, transparent 50%);
-  pointer-events: none;
-}
-.hero-img-overlay::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px);
-  pointer-events: none;
-}
-.hero-img-badge {
-  position: absolute; bottom: 18px; left: 22px;
-  display: flex; align-items: center; gap: 8px;
-  background: rgba(8,10,15,0.75);
-  border: 1px solid rgba(245,194,0,0.3);
-  border-radius: 999px;
-  padding: 6px 16px;
-  font-family: 'Space Mono', monospace;
-  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--gold);
-  backdrop-filter: blur(8px);
-}
-.hero-img-badge-dot { width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 2s ease infinite;flex-shrink:0; }
-.hero-image-showcase::before {
-  content:'';position:absolute;top:0;left:0;width:60px;height:60px;
-  border-top:2px solid var(--gold);border-left:2px solid var(--gold);
-  border-radius:var(--radius-lg) 0 0 0;z-index:2;pointer-events:none;
-}
-.hero-image-showcase::after {
-  content:'';position:absolute;bottom:0;right:0;width:60px;height:60px;
-  border-bottom:2px solid var(--gold);border-right:2px solid var(--gold);
-  border-radius:0 0 var(--radius-lg) 0;z-index:2;pointer-events:none;
-}
-@media(max-width:768px){.hero-image-showcase{margin-top:32px;border-radius:var(--radius);}}
 
 
 /* ── AUTH ─────────────────────────────────── */
@@ -2024,12 +1967,7 @@ footer{
       <div class="kpi"><div class="kpi-val">24/7</div><div class="kpi-label">Monitoramento IIoT</div></div>
       <div class="kpi"><div class="kpi-val blue">15+</div><div class="kpi-label">Contratos Ativos</div></div>
     </div>
-  <!-- ═══ HERO IMAGE SHOWCASE ═══ -->
-  <div class="hero-image-showcase fade-in" data-delay="5">
-    <img src="Imagem1.png" alt="Chesterton — Gestão de Ativos em Campo" class="hero-img" loading="lazy">
-    <div class="hero-img-overlay"></div>
-    <div class="hero-img-badge"><div class="hero-img-badge-dot"></div><span>Operações de Campo · Ativos Rotativos</span></div>
-  </div>
+
   </div>
 </section>
 
@@ -4430,13 +4368,14 @@ document.addEventListener('DOMContentLoaded', () => {
       border: 1px solid rgba(255,255,255,0.07);
       border-left: 3px solid var(--card-color, #0e9e5a);
       border-radius: 10px;
-      padding: 14px 16px;
+      padding: 12px 14px;
       transition: all 0.2s ease;
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
       gap: 12px;
+      min-height: 58px;
     }
     .sga-card::before { display: none; }
     .sga-card:hover {
@@ -4457,8 +4396,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     .sga-card-info { flex: 1; min-width: 0; }
     .sga-card-name {
-      font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,0.9);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.9);
+      white-space: normal;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-height: 1.3;
       margin-bottom: 1px;
     }
     .sga-card-sub { font-size: 10.5px; color: rgba(255,255,255,0.35); }
@@ -5953,6 +5897,48 @@ document.addEventListener('DOMContentLoaded', () => {
   opacity: 0.6;
 }
 @media(max-width:768px){ .modal-esc-hint{ display:none; } }
+
+/* ── Force all scroll-animated elements visible inside modal ────── */
+#modal-content-area .fade-in,
+#modal-content-area .fade-in.visible,
+#modal-content-area .deliver-card,
+#modal-content-area .contract-card,
+#modal-content-area .client-card,
+#modal-content-area .access-card,
+#modal-content-area .tetris-card,
+#modal-content-area .tetris-card.core-card,
+#modal-content-area .contract-card-v2,
+#modal-content-area .contract-card-core,
+#modal-content-area .eco-item,
+#modal-content-area [class*="-card"],
+#modal-content-area [class*="eco-"],
+#modal-content-area [class*="client-"] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition-delay: 0s !important;
+}
+/* Modal PBI layout fill */
+#modal-content-area .pbi-main-layout {
+  min-height: 75vh;
+}
+#modal-content-area .pbi-tabs {
+  min-height: 75vh;
+}
+#modal-content-area #pbi-panels {
+  min-height: 75vh;
+}
+/* SGA grid inside modal */
+#modal-content-area .sga-grid {
+  max-width: 100% !important;
+}
+/* SGA card name — allow wrapping */
+#modal-content-area .sga-card-name {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+}
 </style>
 
 <!-- ─── MODAL OVERLAY ───────────────────────────────── -->
@@ -6026,6 +6012,71 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── Open modal ────────────────────────────────────────────────
+  // ── Re-wire PBI tabs inside a cloned section ─────────────────
+  function rewirePbiInClone(clone) {
+    var cloneTabs   = Array.prototype.slice.call(clone.querySelectorAll('.pbi-tab'));
+    var clonePanels = Array.prototype.slice.call(clone.querySelectorAll('.pbi-panel'));
+    var activeId    = null;
+
+    function activateCloneTab(id) {
+      if (activeId === id) return;
+      activeId = id;
+
+      cloneTabs.forEach(function(t) {
+        t.classList.toggle('active', t.dataset.id === id);
+      });
+      clonePanels.forEach(function(p) {
+        p.classList.toggle('active', p.id === 'pbi-panel-' + id);
+      });
+
+      var iframe  = clone.querySelector('#pbi-fr-'  + id);
+      var overlay = clone.querySelector('#pbi-ov-'  + id);
+      if (!iframe || iframe.dataset.loaded) return;
+
+      var tFallback = setTimeout(function() {
+        iframe.dataset.loaded = '1';
+        iframe.classList.add('ready');
+        if (overlay) overlay.classList.add('gone');
+      }, 20000);
+
+      iframe.onload = function() {
+        clearTimeout(tFallback);
+        iframe.dataset.loaded = '1';
+        iframe.classList.add('ready');
+        if (overlay) overlay.classList.add('gone');
+      };
+      iframe.src = iframe.getAttribute('data-src') || '';
+    }
+
+    cloneTabs.forEach(function(tab) {
+      // Remove stale inline onclick/listeners by cloning the node
+      var fresh = tab.cloneNode(true);
+      tab.parentNode.replaceChild(fresh, tab);
+      fresh.addEventListener('click', function() {
+        activateCloneTab(fresh.dataset.id);
+      });
+    });
+    // Re-query after node replacement
+    var freshTabs = Array.prototype.slice.call(clone.querySelectorAll('.pbi-tab'));
+    if (freshTabs.length > 0 && freshTabs[0].dataset.id) {
+      activateCloneTab(freshTabs[0].dataset.id);
+    }
+  }
+
+  // ── Global event delegation for SGA open buttons in modal ─────
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.sga-open-btn');
+    if (!btn || !btn.dataset.url) return;
+    var url  = btn.dataset.url;
+    var w    = Math.min(1440, screen.availWidth  - 40);
+    var h    = Math.min(900,  screen.availHeight - 60);
+    var left = Math.round((screen.availWidth  - w) / 2);
+    var top  = Math.round((screen.availHeight - h) / 2);
+    window.open(url, 'SGA_Sistema',
+      'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top +
+      ',menubar=no,toolbar=no,location=no,status=no,scrollbars=yes,resizable=yes');
+  }, true); // capture phase so it fires before modal overlay
+
   window.openSectionModal = function(id, label, tag) {
     var section = document.getElementById(id);
     if (!section) return;
@@ -6046,12 +6097,18 @@ document.addEventListener('DOMContentLoaded', () => {
     clone.style.cssText = 'padding:0!important;margin:0!important;display:block!important;';
     contentArea.appendChild(clone);
 
-    // Activate iframes in clone (pbi and matriz)
-    clone.querySelectorAll('iframe[data-src]').forEach(function(iframe) {
-      if (!iframe.src || iframe.src === '' || iframe.src === 'about:blank') {
-        iframe.src = iframe.getAttribute('data-src');
-      }
-    });
+    // Activate iframes in clone (matriz only — pbi tabs handled by rewire)
+    if (id !== 'pbi-section') {
+      clone.querySelectorAll('iframe[data-src]').forEach(function(iframe) {
+        if (!iframe.src || iframe.src === '' || iframe.src === 'about:blank') {
+          iframe.src = iframe.getAttribute('data-src');
+        }
+      });
+    }
+    // Re-wire PBI tabs in clone
+    if (id === 'pbi-section') {
+      setTimeout(function() { rewirePbiInClone(clone); }, 60);
+    }
 
     // Show modal
     overlay.classList.add('modal-visible');
