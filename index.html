@@ -480,35 +480,8 @@ body{background:var(--black);color:var(--white);font-family:"DM Sans",sans-serif
 .brand-logo span{color:var(--gold)}
 .brand-divider{width:1px;height:28px;background:var(--border2)}
 .brand-sub{font-family:"Space Mono",monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);line-height:1.3}
-/* ── NAV REDESIGN ──────────────────────────────────── */
-nav{
-  display:flex;align-items:center;gap:2px;
-  background:rgba(255,255,255,0.04);
-  border:1px solid var(--border);
-  border-radius:999px;
-  padding:4px;
-  overflow-x:auto;
-  max-width:calc(100vw - 380px);
-  scrollbar-width:none;
-}
-nav::-webkit-scrollbar{display:none}
-nav a{
-  font-size:11px;letter-spacing:0.3px;
-  color:var(--muted);text-decoration:none;
-  padding:7px 14px;border-radius:999px;
-  transition:var(--t);font-weight:500;
-  white-space:nowrap;flex-shrink:0;
-}
-nav a:hover{color:var(--white);background:rgba(255,255,255,0.08)}
-nav a.active{color:var(--gold);background:rgba(245,194,0,0.13);font-weight:600}
-nav .nav-sep{
-  width:1px;height:16px;background:var(--border2);
-  flex-shrink:0;margin:0 4px;align-self:center;
-}
-nav .nav-restricted{
-  color:var(--gold);
-}
-nav .nav-restricted:hover{color:#fff}
+/* ── NAV — hidden (removed from topbar) ── */
+nav { display: none; }
 
 /* ── HERO ─────────────────────────────────── */
 #hero{
@@ -1090,85 +1063,77 @@ footer{
 }
 
 
-/* ── HERO TETRIS DECORATION — ANIME/3D STYLE ──────────────── */
-.hero-tetris {
+/* ── HERO VIDEO BACKGROUND ──────────────────────────────── */
+.hero-video-container {
   position: absolute;
-  right: 1%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: clamp(320px, 36vw, 560px);
-  height: auto;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: clamp(55%, 68vw, 78%);
+  z-index: 0;
+  overflow: hidden;
   pointer-events: none;
+}
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: sepia(0.72) grayscale(0.52) brightness(0.28) contrast(1.08);
+  display: block;
+}
+/* Dark tinted sepia overlay */
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 8, 4, 0.52);
   z-index: 1;
-  opacity: 0.96;
-  filter: drop-shadow(0 0 60px rgba(245,194,0,0.12));
+  mix-blend-mode: multiply;
 }
-.hero-tetris svg { width: 100%; height: 100%; overflow: visible; }
-
-/* Individual piece float animations */
-@keyframes tp1 {
-  0%,100%{ transform: translate(0,0) rotate(0deg); }
-  30%    { transform: translate(-5px,-12px) rotate(-0.8deg); }
-  70%    { transform: translate(3px,-6px) rotate(0.5deg); }
+/* Subtle gold-to-dark vignette at the edges */
+.hero-video-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 100% 55% at 50% 100%, rgba(8,10,15,0.75) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 30% at 50% 0%,   rgba(8,10,15,0.6)  0%, transparent 70%);
+  z-index: 2;
 }
-@keyframes tp2 {
-  0%,100%{ transform: translate(0,0) rotate(0deg); }
-  40%    { transform: translate(9px,-9px) rotate(1.2deg); }
-  80%    { transform: translate(-4px,3px) rotate(-0.4deg); }
+/* Left gradient — blends seamlessly into the hero title */
+.hero-video-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 45%;
+  background: linear-gradient(
+    90deg,
+    var(--black)          0%,
+    rgba(8,10,15,0.92)   30%,
+    rgba(8,10,15,0.60)   60%,
+    transparent          100%
+  );
+  z-index: 3;
 }
-@keyframes tp3 {
-  0%,100%{ transform: translate(0,0) rotate(0deg); }
-  25%    { transform: translate(-6px,10px) rotate(-1deg); }
-  65%    { transform: translate(5px,-5px) rotate(0.7deg); }
-}
-@keyframes tp4 {
-  0%,100%{ transform: translate(0,0) rotate(0deg); }
-  50%    { transform: translate(7px,8px) rotate(0.9deg); }
-  85%    { transform: translate(-3px,2px) rotate(-0.3deg); }
-}
-@keyframes tp5 {
-  0%,100%{ transform: translate(0,0) rotate(0deg); }
-  35%    { transform: translate(-4px,-8px) rotate(-0.6deg); }
-  75%    { transform: translate(6px,4px) rotate(0.8deg); }
-}
-@keyframes tp6 {
-  0%,100%{ transform: translate(0,0) rotate(0deg); }
-  45%    { transform: translate(5px,-10px) rotate(1.0deg); }
-  90%    { transform: translate(-2px,6px) rotate(-0.5deg); }
-}
-
-/* Glow pulse on landing zone */
-@keyframes grid-pulse {
-  0%,100%{ opacity: 0.06; }
-  50%    { opacity: 0.12; }
-}
-@keyframes particle-float {
-  0%   { transform: translateY(0) scale(1); opacity: 0.7; }
-  50%  { transform: translateY(-18px) scale(1.3); opacity: 1; }
-  100% { transform: translateY(-36px) scale(0); opacity: 0; }
-}
-@keyframes landing-flash {
-  0%   { opacity: 0; }
-  20%  { opacity: 0.6; }
-  100% { opacity: 0; }
+/* Subtle gold shimmer line on the left edge of video */
+.hero-video-edge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg,
+    transparent          0%,
+    rgba(245,194,0,0.18) 25%,
+    rgba(245,194,0,0.35) 50%,
+    rgba(245,194,0,0.18) 75%,
+    transparent          100%
+  );
+  z-index: 4;
 }
 
-.tp1 { animation: tp1 4.8s ease-in-out infinite; transform-origin: center; }
-.tp2 { animation: tp2 5.5s ease-in-out infinite; transform-origin: center; animation-delay: 0.6s; }
-.tp3 { animation: tp3 4.3s ease-in-out infinite; transform-origin: center; animation-delay: 1.1s; }
-.tp4 { animation: tp4 5.1s ease-in-out infinite; transform-origin: center; animation-delay: 0.3s; }
-.tp5 { animation: tp5 4.6s ease-in-out infinite; transform-origin: center; animation-delay: 0.9s; }
-.tp6 { animation: tp6 5.8s ease-in-out infinite; transform-origin: center; animation-delay: 1.4s; }
-
-.tp-grid  { animation: grid-pulse 3s ease-in-out infinite; }
-.tp-p1    { animation: particle-float 3.2s ease-out infinite; }
-.tp-p2    { animation: particle-float 3.8s ease-out infinite 0.7s; }
-.tp-p3    { animation: particle-float 2.9s ease-out infinite 1.3s; }
-.tp-p4    { animation: particle-float 4.1s ease-out infinite 0.4s; }
-.tp-flash { animation: landing-flash 2s ease-out infinite 1s; }
-
-@media(max-width:1100px){ .hero-tetris{ opacity:0.55; right:-3%; width:clamp(260px,32vw,480px); } }
-@media(max-width:768px) { .hero-tetris{ display:none; } }
+@media(max-width:1100px){ .hero-video-container{ width: clamp(50%, 72vw, 80%); } }
+@media(max-width:768px) { .hero-video-container{ display:none; } }
 
 
 /* ── CONTRACTS HUB LAYOUT (v3) ──────────────────────────────── */
@@ -1673,19 +1638,6 @@ footer{
     <div class="brand-divider"></div>
     <div class="brand-sub">Confiabilidade<br>Gestão de Ativos Rotativos</div>
   </a>
-  <nav aria-label="Navegação">
-    <a href="#hero" class="active">Visão Geral</a>
-    <a href="#entregamos">Entregas</a>
-    <a href="#ecossistema">Ecossistema</a>
-    <a href="#contratos">Contratos</a>
-    <a href="#contratos-ativos">Clientes</a>
-    <span class="nav-sep" aria-hidden="true"></span>
-    <a href="#pbi-section" class="nav-restricted">Power-BI</a>
-    <a href="#sga-section" class="nav-restricted">SGA</a>
-    <a href="#matriz-section" class="nav-restricted">Matriz</a>
-    <a href="#job-section" class="nav-restricted">Job Desc.</a>
-  </nav>
-
   <!-- ═══ LANG SWITCH (added) -->
   <div id="langSwitch" aria-label="Language selector" style="display:flex;gap:8px;align-items:center;">
     <button type="button" class="lang-btn" data-lang="pt" aria-label="Português" style="cursor:pointer;border:1px solid rgba(245,194,0,0.25);background:rgba(245,194,0,0.10);color:#F0F4FF;border-radius:999px;padding:6px 10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">PT</button>
@@ -1729,226 +1681,15 @@ footer{
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
 
-<!-- ═══ HERO TETRIS DECORATION — ANIME 3D ═══ -->
-<div class="hero-tetris" aria-hidden="true">
-<svg viewBox="0 0 520 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <!-- Glows -->
-    <filter id="glow-gold-xl" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="8" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="glow-gold-md" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="glow-white-md" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="shadow-3d" x="-20%" y="-20%" width="160%" height="160%">
-      <feDropShadow dx="3" dy="5" stdDeviation="4" flood-color="rgba(0,0,0,0.6)"/>
-    </filter>
-    <!-- 3D gradient fills -->
-    <linearGradient id="grad-gold-top" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FFD84D"/>
-      <stop offset="60%" stop-color="#F5C200"/>
-      <stop offset="100%" stop-color="#C89600"/>
-    </linearGradient>
-    <linearGradient id="grad-gold-dim" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#D4A800" stop-opacity="0.55"/>
-      <stop offset="100%" stop-color="#9A7400" stop-opacity="0.45"/>
-    </linearGradient>
-    <linearGradient id="grad-white-top" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.85"/>
-      <stop offset="100%" stop-color="#B0C0E0" stop-opacity="0.55"/>
-    </linearGradient>
-    <linearGradient id="grad-blue" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#4AABF0" stop-opacity="0.75"/>
-      <stop offset="100%" stop-color="#1A7FD4" stop-opacity="0.55"/>
-    </linearGradient>
-    <!-- Block face gradients for 3D illusion -->
-    <linearGradient id="face-top-gold" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FFE060"/>
-      <stop offset="100%" stop-color="#F5C200"/>
-    </linearGradient>
-    <linearGradient id="face-left-gold" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F5C200"/>
-      <stop offset="100%" stop-color="#C89600"/>
-    </linearGradient>
-  </defs>
-
-  <!-- ── BACKGROUND GRID (subtle landing zone) ─────────── -->
-  <g class="tp-grid" opacity="0.08">
-    <!-- vertical lines -->
-    <line x1="40"  y1="180" x2="40"  y2="480" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="80"  y1="180" x2="80"  y2="480" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="120" y1="180" x2="120" y2="480" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="160" y1="180" x2="160" y2="480" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="200" y1="180" x2="200" y2="480" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="240" y1="180" x2="240" y2="480" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="280" y1="180" x2="280" y2="480" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="320" y1="180" x2="320" y2="480" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="360" y1="180" x2="360" y2="480" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="400" y1="180" x2="400" y2="480" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="440" y1="180" x2="440" y2="480" stroke="#F5C200" stroke-width="0.5"/>
-    <!-- horizontal lines -->
-    <line x1="40" y1="200" x2="460" y2="200" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="40" y1="240" x2="460" y2="240" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="40" y1="280" x2="460" y2="280" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="40" y1="320" x2="460" y2="320" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="40" y1="360" x2="460" y2="360" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="40" y1="400" x2="460" y2="400" stroke="#F5C200" stroke-width="0.5"/>
-    <line x1="40" y1="440" x2="460" y2="440" stroke="#F5C200" stroke-width="0.5"/>
-  </g>
-
-  <!-- ── PLACED BLOCKS (already on stack, dim, ground level) ── -->
-  <!-- Row bottom — I-bar gold (placed) -->
-  <g opacity="0.38">
-    <rect x="40"  y="440" width="36" height="36" rx="3" fill="url(#grad-gold-dim)"/>
-    <rect x="80"  y="440" width="36" height="36" rx="3" fill="url(#grad-gold-dim)"/>
-    <rect x="120" y="440" width="36" height="36" rx="3" fill="url(#grad-gold-dim)"/>
-    <rect x="160" y="440" width="36" height="36" rx="3" fill="url(#grad-gold-dim)"/>
-    <rect x="40"  y="440" width="36" height="36" rx="3" stroke="#F5C200" stroke-width="0.8" fill="none" opacity="0.5"/>
-    <rect x="80"  y="440" width="36" height="36" rx="3" stroke="#F5C200" stroke-width="0.8" fill="none" opacity="0.5"/>
-    <rect x="120" y="440" width="36" height="36" rx="3" stroke="#F5C200" stroke-width="0.8" fill="none" opacity="0.5"/>
-    <rect x="160" y="440" width="36" height="36" rx="3" stroke="#F5C200" stroke-width="0.8" fill="none" opacity="0.5"/>
-  </g>
-  <!-- Row bottom — S-shape white (placed) -->
-  <g opacity="0.28">
-    <rect x="240" y="400" width="36" height="36" rx="3" fill="url(#grad-white-top)"/>
-    <rect x="280" y="400" width="36" height="36" rx="3" fill="url(#grad-white-top)"/>
-    <rect x="200" y="440" width="36" height="36" rx="3" fill="url(#grad-white-top)"/>
-    <rect x="240" y="440" width="36" height="36" rx="3" fill="url(#grad-white-top)"/>
-    <rect x="240" y="400" width="36" height="36" rx="3" stroke="white" stroke-width="0.8" fill="none" opacity="0.4"/>
-    <rect x="280" y="400" width="36" height="36" rx="3" stroke="white" stroke-width="0.8" fill="none" opacity="0.4"/>
-    <rect x="200" y="440" width="36" height="36" rx="3" stroke="white" stroke-width="0.8" fill="none" opacity="0.4"/>
-    <rect x="240" y="440" width="36" height="36" rx="3" stroke="white" stroke-width="0.8" fill="none" opacity="0.4"/>
-  </g>
-  <!-- Z-shape blue dim (placed, far right) -->
-  <g opacity="0.22">
-    <rect x="360" y="400" width="36" height="36" rx="3" fill="url(#grad-blue)"/>
-    <rect x="400" y="400" width="36" height="36" rx="3" fill="url(#grad-blue)"/>
-    <rect x="400" y="440" width="36" height="36" rx="3" fill="url(#grad-blue)"/>
-    <rect x="440" y="440" width="36" height="36" rx="3" fill="url(#grad-blue)"/>
-  </g>
-
-  <!-- ── PIECE 5: L-shape (gold, mid-placed, second row) ── -->
-  <g class="tp5" filter="url(#shadow-3d)">
-    <!-- Main L blocks -->
-    <rect x="320" y="320" width="36" height="36" rx="4" fill="url(#grad-gold-dim)" opacity="0.7"/>
-    <rect x="320" y="360" width="36" height="36" rx="4" fill="url(#grad-gold-dim)" opacity="0.7"/>
-    <rect x="360" y="360" width="36" height="36" rx="4" fill="url(#grad-gold-dim)" opacity="0.7"/>
-    <rect x="400" y="360" width="36" height="36" rx="4" fill="url(#grad-gold-dim)" opacity="0.7"/>
-    <!-- outlines -->
-    <rect x="320" y="320" width="36" height="36" rx="4" stroke="#F5C200" stroke-width="1" fill="none" opacity="0.6"/>
-    <rect x="320" y="360" width="36" height="36" rx="4" stroke="#F5C200" stroke-width="1" fill="none" opacity="0.6"/>
-    <rect x="360" y="360" width="36" height="36" rx="4" stroke="#F5C200" stroke-width="1" fill="none" opacity="0.6"/>
-    <rect x="400" y="360" width="36" height="36" rx="4" stroke="#F5C200" stroke-width="1" fill="none" opacity="0.6"/>
-  </g>
-
-  <!-- ── PIECE 6: Square 2×2 (white, mid) ── -->
-  <g class="tp6" filter="url(#glow-white-md)">
-    <rect x="80"  y="360" width="36" height="36" rx="4" fill="url(#grad-white-top)" opacity="0.42"/>
-    <rect x="120" y="360" width="36" height="36" rx="4" fill="url(#grad-white-top)" opacity="0.42"/>
-    <rect x="80"  y="400" width="36" height="36" rx="4" fill="url(#grad-white-top)" opacity="0.42"/>
-    <rect x="120" y="400" width="36" height="36" rx="4" fill="url(#grad-white-top)" opacity="0.42"/>
-    <rect x="80"  y="360" width="36" height="36" rx="4" stroke="white" stroke-width="0.8" fill="none" opacity="0.5"/>
-    <rect x="120" y="360" width="36" height="36" rx="4" stroke="white" stroke-width="0.8" fill="none" opacity="0.5"/>
-    <rect x="80"  y="400" width="36" height="36" rx="4" stroke="white" stroke-width="0.8" fill="none" opacity="0.5"/>
-    <rect x="120" y="400" width="36" height="36" rx="4" stroke="white" stroke-width="0.8" fill="none" opacity="0.5"/>
-  </g>
-
-  <!-- ── PIECE 3: T-shape falling (white, mid-height) ── -->
-  <g class="tp3" filter="url(#glow-white-md)">
-    <rect x="160" y="280" width="36" height="36" rx="4" fill="url(#grad-white-top)" opacity="0.55"/>
-    <rect x="200" y="280" width="36" height="36" rx="4" fill="url(#grad-white-top)" opacity="0.55"/>
-    <rect x="240" y="280" width="36" height="36" rx="4" fill="url(#grad-white-top)" opacity="0.55"/>
-    <rect x="200" y="320" width="36" height="36" rx="4" fill="url(#grad-white-top)" opacity="0.55"/>
-    <!-- sheen highlight -->
-    <rect x="163" y="283" width="14" height="9" rx="3" fill="white" opacity="0.5"/>
-    <rect x="203" y="283" width="14" height="9" rx="3" fill="white" opacity="0.5"/>
-    <rect x="243" y="283" width="14" height="9" rx="3" fill="white" opacity="0.5"/>
-    <rect x="203" y="323" width="14" height="9" rx="3" fill="white" opacity="0.5"/>
-  </g>
-
-  <!-- ── PIECE 4: Square 2×2 (gold, active, center) ── -->
-  <g class="tp4" filter="url(#shadow-3d)">
-    <rect x="200" y="160" width="40" height="40" rx="5" fill="url(#grad-gold-top)" opacity="0.8"/>
-    <rect x="244" y="160" width="40" height="40" rx="5" fill="url(#grad-gold-top)" opacity="0.8"/>
-    <rect x="200" y="204" width="40" height="40" rx="5" fill="url(#grad-gold-top)" opacity="0.8"/>
-    <rect x="244" y="204" width="40" height="40" rx="5" fill="url(#grad-gold-top)" opacity="0.8"/>
-    <!-- 3D top face shine -->
-    <rect x="203" y="163" width="16" height="10" rx="3" fill="white" opacity="0.45"/>
-    <rect x="247" y="163" width="16" height="10" rx="3" fill="white" opacity="0.45"/>
-    <rect x="203" y="207" width="16" height="10" rx="3" fill="white" opacity="0.45"/>
-    <rect x="247" y="207" width="16" height="10" rx="3" fill="white" opacity="0.45"/>
-    <!-- 3D right side darker -->
-    <rect x="276" y="164" width="8" height="36" rx="2" fill="rgba(0,0,0,0.25)"/>
-    <rect x="276" y="208" width="8" height="36" rx="2" fill="rgba(0,0,0,0.25)"/>
-  </g>
-
-  <!-- ── PIECE 1: L-shape (GOLD PRIMARY, falling top-left, BIG) ── -->
-  <g class="tp1" filter="url(#glow-gold-xl)">
-    <!-- ■         -->
-    <!-- ■ ■ ■     -->
-    <rect x="20"  y="28"  width="44" height="44" rx="5" fill="url(#grad-gold-top)" opacity="0.95"/>
-    <rect x="20"  y="76"  width="44" height="44" rx="5" fill="url(#grad-gold-top)" opacity="0.95"/>
-    <rect x="68"  y="76"  width="44" height="44" rx="5" fill="url(#grad-gold-top)" opacity="0.95"/>
-    <rect x="116" y="76"  width="44" height="44" rx="5" fill="url(#grad-gold-top)" opacity="0.95"/>
-    <!-- 3D top sheen highlight -->
-    <rect x="24"  y="32"  width="18" height="12" rx="3" fill="white" opacity="0.5"/>
-    <rect x="24"  y="80"  width="18" height="12" rx="3" fill="white" opacity="0.5"/>
-    <rect x="72"  y="80"  width="18" height="12" rx="3" fill="white" opacity="0.5"/>
-    <rect x="120" y="80"  width="18" height="12" rx="3" fill="white" opacity="0.5"/>
-    <!-- right side darker panels (3D illusion) -->
-    <rect x="60"  y="30"  width="8" height="40" rx="2" fill="rgba(0,0,0,0.2)"/>
-    <rect x="60"  y="78"  width="8" height="40" rx="2" fill="rgba(0,0,0,0.2)"/>
-    <rect x="108" y="78"  width="8" height="40" rx="2" fill="rgba(0,0,0,0.2)"/>
-    <rect x="156" y="78"  width="8" height="40" rx="2" fill="rgba(0,0,0,0.2)"/>
-    <!-- bottom darker panels -->
-    <rect x="21"  y="64"  width="40" height="8" rx="2" fill="rgba(0,0,0,0.2)"/>
-    <rect x="21"  y="112" width="40" height="8" rx="2" fill="rgba(0,0,0,0.2)"/>
-    <rect x="69"  y="112" width="40" height="8" rx="2" fill="rgba(0,0,0,0.2)"/>
-    <rect x="117" y="112" width="40" height="8" rx="2" fill="rgba(0,0,0,0.2)"/>
-  </g>
-
-  <!-- ── PIECE 2: T-shape (WHITE, top-right, falling) ── -->
-  <g class="tp2" filter="url(#glow-white-md)">
-    <!-- ■ ■ ■  -->
-    <!--   ■    -->
-    <rect x="290" y="18"  width="42" height="42" rx="5" fill="url(#grad-white-top)" opacity="0.7"/>
-    <rect x="336" y="18"  width="42" height="42" rx="5" fill="url(#grad-white-top)" opacity="0.7"/>
-    <rect x="382" y="18"  width="42" height="42" rx="5" fill="url(#grad-white-top)" opacity="0.7"/>
-    <rect x="336" y="64"  width="42" height="42" rx="5" fill="url(#grad-white-top)" opacity="0.7"/>
-    <!-- sheen -->
-    <rect x="294" y="22"  width="16" height="10" rx="3" fill="white" opacity="0.55"/>
-    <rect x="340" y="22"  width="16" height="10" rx="3" fill="white" opacity="0.55"/>
-    <rect x="386" y="22"  width="16" height="10" rx="3" fill="white" opacity="0.55"/>
-    <rect x="340" y="68"  width="16" height="10" rx="3" fill="white" opacity="0.55"/>
-    <!-- 3D right/bottom panels -->
-    <rect x="328" y="20"  width="8" height="38" rx="2" fill="rgba(0,0,0,0.18)"/>
-    <rect x="374" y="20"  width="8" height="38" rx="2" fill="rgba(0,0,0,0.18)"/>
-    <rect x="420" y="20"  width="8" height="38" rx="2" fill="rgba(0,0,0,0.18)"/>
-    <rect x="374" y="66"  width="8" height="38" rx="2" fill="rgba(0,0,0,0.18)"/>
-  </g>
-
-  <!-- ── FLOATING PARTICLES ─────────────────────────────── -->
-  <circle class="tp-p1" cx="168" cy="110" r="3.5" fill="#F5C200" opacity="0.8"/>
-  <circle class="tp-p2" cx="430" cy="90"  r="2.5" fill="white"   opacity="0.6"/>
-  <circle class="tp-p3" cx="260" cy="250" r="3"   fill="#F5C200" opacity="0.7"/>
-  <circle class="tp-p4" cx="80"  cy="200" r="2"   fill="white"   opacity="0.5"/>
-  <circle class="tp-p1" cx="350" cy="180" r="2.5" fill="#F5C200" opacity="0.65" style="animation-delay:1.6s"/>
-  <circle class="tp-p3" cx="480" cy="300" r="2"   fill="white"   opacity="0.45" style="animation-delay:2.1s"/>
-
-  <!-- ── LANDING FLASH LINE ────────────────────────────── -->
-  <rect class="tp-flash" x="40" y="478" width="420" height="2" rx="1" fill="#F5C200" opacity="0"/>
-
-  <!-- ── CONNECTION LINES (dotted) ─────────────────────── -->
-  <line x1="164" y1="120" x2="204" y2="164" stroke="#F5C200" stroke-width="0.7" stroke-dasharray="4 5" opacity="0.18"/>
-  <line x1="290" y1="108" x2="244" y2="164" stroke="white"   stroke-width="0.7" stroke-dasharray="4 5" opacity="0.12"/>
-  <line x1="340" y1="110" x2="328" y2="168" stroke="white"   stroke-width="0.7" stroke-dasharray="4 5" opacity="0.12"/>
-</svg>
+<!-- ═══ HERO VIDEO BACKGROUND — INDUSTRIAL PREMIUM ═══ -->
+<div class="hero-video-container" aria-hidden="true">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto">
+    <source src="https://pub-f09a6efdf5784a36875db819190ede69.r2.dev/Video_Fundo.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
+  <div class="hero-video-vignette"></div>
+  <div class="hero-video-fade"></div>
+  <div class="hero-video-edge"></div>
 </div>
 
   <div class="hero-inner">
