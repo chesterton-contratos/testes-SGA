@@ -114,6 +114,49 @@
 }
 #themeToggle:hover { background:rgba(245,194,0,0.15); color:var(--gold); }
 
+/* ── LANG SWITCH — Discreto no topo do header ────────── */
+#langSwitch {
+  display:flex;
+  align-items:center;
+  gap:2px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:999px;
+  padding:3px 4px;
+  flex-shrink:0;
+}
+#langSwitch .lang-btn {
+  cursor:pointer;
+  border:none;
+  background:transparent;
+  color:rgba(240,244,255,0.38);
+  border-radius:999px;
+  padding:4px 9px;
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+  transition:all .18s;
+  font-weight:400;
+  line-height:1;
+}
+#langSwitch .lang-btn:hover {
+  color:rgba(240,244,255,0.8);
+  background:rgba(255,255,255,0.07);
+}
+#langSwitch .lang-btn.is-active {
+  background:rgba(245,194,0,0.18);
+  color:#F5C200;
+  font-weight:700;
+}
+[data-theme="light"] #langSwitch {
+  background:rgba(26,35,64,0.05);
+  border-color:rgba(26,35,64,0.12);
+}
+[data-theme="light"] #langSwitch .lang-btn { color:rgba(26,35,64,0.4); }
+[data-theme="light"] #langSwitch .lang-btn:hover { color:rgba(26,35,64,0.8); background:rgba(26,35,64,0.06); }
+[data-theme="light"] #langSwitch .lang-btn.is-active { background:rgba(200,149,0,0.15); color:#a87c00; }
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px}
 html,body{max-width:100%;overflow-x:hidden}
@@ -747,14 +790,12 @@ footer{
 @media(max-width:1024px){
   #topbar{padding:0 20px}
   nav{max-width:calc(100vw - 320px)}
-  #langSwitch{gap:4px}
-  #langSwitch button{padding:5px 8px;font-size:9px}
 }
 @media(max-width:768px){
   section{padding:60px 20px}
-  #topbar{padding:0 14px;gap:8px}
+  #topbar{padding:0 14px;gap:6px}
   nav{display:none}
-  #langSwitch{display:none}
+  #langSwitch{gap:0}
   .hero-kpis{flex-direction:column}
   .delivers-grid{grid-template-columns:1fr}
   .contracts-grid{grid-template-columns:1fr}
@@ -1532,11 +1573,11 @@ footer{
 
     <!-- ─── STEP 1 — E-MAIL + SENHA ─── -->
     <div id="sga-step-1">
-      <!-- Language selector on login -->
-      <div id="loginLangSwitch" style="display:flex;gap:6px;justify-content:flex-end;margin-bottom:20px;">
-        <button type="button" class="login-lang-btn" data-lang="pt" style="cursor:pointer;border:1px solid rgba(245,194,0,0.4);background:rgba(245,194,0,0.15);color:#F5C200;border-radius:999px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;font-weight:700;">PT</button>
-        <button type="button" class="login-lang-btn" data-lang="es" style="cursor:pointer;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.4);border-radius:999px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;">ES</button>
-        <button type="button" class="login-lang-btn" data-lang="en" style="cursor:pointer;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.4);border-radius:999px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;">EN</button>
+      <!-- Language selector on login — discreto, canto superior direito -->
+      <div id="loginLangSwitch" style="display:flex;gap:2px;justify-content:flex-end;margin-bottom:18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:999px;padding:3px 4px;width:fit-content;margin-left:auto;">
+        <button type="button" class="login-lang-btn" data-lang="pt" style="cursor:pointer;border:none;background:rgba(245,194,0,0.18);color:#F5C200;border-radius:999px;padding:4px 9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;transition:all .18s;font-weight:700;line-height:1;">PT</button>
+        <button type="button" class="login-lang-btn" data-lang="es" style="cursor:pointer;border:none;background:transparent;color:rgba(255,255,255,0.38);border-radius:999px;padding:4px 9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;transition:all .18s;line-height:1;">ES</button>
+        <button type="button" class="login-lang-btn" data-lang="en" style="cursor:pointer;border:none;background:transparent;color:rgba(255,255,255,0.38);border-radius:999px;padding:4px 9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;transition:all .18s;line-height:1;">EN</button>
       </div>
       <div class="auth-logo">CHESTERTON<span>.</span></div>
       <div class="auth-badge" id="auth-badge-text">Acesso Restrito · Uso Institucional</div>
@@ -1638,18 +1679,22 @@ footer{
     <div class="brand-divider"></div>
     <div class="brand-sub">Confiabilidade<br>Gestão de Ativos Rotativos</div>
   </a>
-  <!-- ═══ LANG SWITCH (added) -->
-  <div id="langSwitch" aria-label="Language selector" style="display:flex;gap:8px;align-items:center;">
-    <button type="button" class="lang-btn" data-lang="pt" aria-label="Português" style="cursor:pointer;border:1px solid rgba(245,194,0,0.25);background:rgba(245,194,0,0.10);color:#F0F4FF;border-radius:999px;padding:6px 10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">PT</button>
-    <button type="button" class="lang-btn" data-lang="es" aria-label="Español" style="cursor:pointer;border:1px solid rgba(26,127,212,0.35);background:rgba(26,127,212,0.12);color:#F0F4FF;border-radius:999px;padding:6px 10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">ES</button>
-    <button type="button" class="lang-btn" data-lang="en" aria-label="English" style="cursor:pointer;border:1px solid rgba(245,194,0,0.25);background:rgba(245,194,0,0.10);color:#F0F4FF;border-radius:999px;padding:6px 10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">EN</button>
-  </div>
 
-  <button id="themeToggle" type="button" aria-label="Toggle dark/light theme" title="Alternar tema" onclick="(function(){var h=document.documentElement;var t=h.getAttribute('data-theme');if(t==='light'){h.removeAttribute('data-theme');try{localStorage.setItem('portal_theme','dark');}catch(e){}}else{h.setAttribute('data-theme','light');try{localStorage.setItem('portal_theme','light');}catch(e){}};var btn=document.getElementById('themeToggle');if(btn){btn.innerHTML=h.getAttribute('data-theme')==='light'?'🌙 Dark':'☀️ Light';}})()">☀️ Light</button>
-
-  <div id="user-name-wrap" style="display:none;align-items:center;gap:8px;margin-left:8px;padding-left:12px;border-left:1px solid rgba(245,194,0,0.2);">
+  <div id="user-name-wrap" style="display:none;align-items:center;gap:8px;flex:1;padding-left:20px;">
     <div style="width:7px;height:7px;border-radius:50%;background:#0e9e5a;flex-shrink:0;animation:pulse 2s ease infinite;"></div>
     <span id="user-display-name" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(240,244,255,0.7);white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis;"></span>
+  </div>
+
+  <!-- Controles do topo: tema + idioma (discretos, agrupados à direita) -->
+  <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+    <button id="themeToggle" type="button" aria-label="Toggle dark/light theme" title="Alternar tema" onclick="(function(){var h=document.documentElement;var t=h.getAttribute('data-theme');if(t==='light'){h.removeAttribute('data-theme');try{localStorage.setItem('portal_theme','dark');}catch(e){}}else{h.setAttribute('data-theme','light');try{localStorage.setItem('portal_theme','light');}catch(e){}};var btn=document.getElementById('themeToggle');if(btn){btn.innerHTML=h.getAttribute('data-theme')==='light'?'🌙 Dark':'☀️ Light';}})()">☀️ Light</button>
+
+    <!-- ═══ LANG SWITCH — discreto, canto superior direito -->
+    <div id="langSwitch" role="group" aria-label="Idioma / Language">
+      <button type="button" class="lang-btn" data-lang="pt" aria-label="Português" aria-pressed="true">PT</button>
+      <button type="button" class="lang-btn" data-lang="es" aria-label="Español" aria-pressed="false">ES</button>
+      <button type="button" class="lang-btn" data-lang="en" aria-label="English" aria-pressed="false">EN</button>
+    </div>
   </div>
 </header>
 <script>
@@ -2129,92 +2174,223 @@ footer{
 "Perfil dos Profissionais": "Professional Profiles",
 "Acessos Rápidos": "Quick Access", "Equipe Operacional": "Operational Team", "Profissionais": "Professionals", "Regiões": "Regions", "pessoas": "people", "México": "Mexico", "Brasil": "Brazil", "Chile": "Chile", "Autenticação em Duas Etapas": "Two-Factor Authentication", "Verifique sua identidade com o código do autenticador": "Verify your identity with the authenticator code", "🔐  Etapa 2 de 2 — Verificação": "🔐  Step 2 of 2 — Verification", "Abra o": "Open the", "no celular": "on your phone", "Toque em": "Tap", "Ler código QR": "Scan QR code", "Aponte a câmera para o código abaixo": "Point your camera at the code below", "Chave manual (se não conseguir escanear)": "Manual key (if you cannot scan)", "✅ Já escaneei — ocultar QR Code": "✅ Already scanned — hide QR Code", "Ocultar": "Hide", "Mostrar": "Show", "Digite o código de 6 dígitos do app:": "Enter the 6-digit code from the app:", "renova em": "renews in", "✔ Verificar e Entrar": "✔ Verify and Sign in", "Verificando código...": "Verifying code...", "← Voltar para o login": "← Back to login", "📋 Copiar": "📋 Copy", "Verificando credenciais…": "Verifying credentials…", "⟳ Verificando credenciais…": "⟳ Verifying credentials…", "Login ou senha incorretos. Tente novamente.": "Incorrect email or password. Please try again.", "Conteúdo institucional de uso interno. Insira seu e-mail e senha para continuar.": "Institutional content for internal use. Enter your email and password to continue.", "Powered by n8n · Chesterton SGA": "Powered by n8n · Chesterton SGA", "Tenho acesso a todos os contratos e à": "I have access to all contracts and the", "Como posso ajudar?": "How can I help?", "Sugestões rápidas": "Quick suggestions", "Abrirá o WhatsApp com sua mensagem pronta": "Will open WhatsApp with your message ready", "Uma parceria técnico-operacional completa — do produto de selagem ao dashboard executivo. Combinamos excelência em materiais, engenharia especializada e tecnologia proprietária para garantir confiabilidade real nos seus ativos rotativos.": "A complete technical-operational partnership — from sealing product to executive dashboard. We combine material excellence, specialized engineering, and proprietary technology to ensure real reliability for your rotating assets."}
   };
+  // ── Strings dinâmicas via JS (TOTP, botões de ação) ─────
+  DICT.es["⚠️ Código inválido ou expirado. Aguarde o próximo e tente novamente."] = "⚠️ Código inválido o expirado. Espere el siguiente e inténtalo de nuevo.";
+  DICT.es["⚠️ Erro ao verificar código. Tente novamente."] = "⚠️ Error al verificar el código. Inténtalo de nuevo.";
+  DICT.es["✅ Copiado!"] = "✅ ¡Copiado!";
+  DICT.es["📱 Mostrar QR Code novamente"] = "📱 Mostrar QR Code nuevamente";
+  DICT.es["E-mail ou senha incorretos. Tente novamente."] = "Correo o contraseña incorrectos. Inténtalo de nuevo.";
+  DICT.en["⚠️ Código inválido ou expirado. Aguarde o próximo e tente novamente."] = "⚠️ Invalid or expired code. Wait for the next one and try again.";
+  DICT.en["⚠️ Erro ao verificar código. Tente novamente."] = "⚠️ Error verifying code. Please try again.";
+  DICT.en["✅ Copiado!"] = "✅ Copied!";
+  DICT.en["📱 Mostrar QR Code novamente"] = "📱 Show QR Code again";
+  DICT.en["E-mail ou senha incorretos. Tente novamente."] = "Incorrect email or password. Please try again.";
+
+  // ── Chips de papel / roles (Job Description) ─────────
+  DICT.es["Técnico"] = "Técnico"; DICT.en["Técnico"] = "Technician";
+  DICT.es["Engenharia"] = "Ingeniería"; DICT.en["Engenharia"] = "Engineering";
+  DICT.es["Comercial"] = "Comercial"; DICT.en["Comercial"] = "Commercial";
+  DICT.es["Logística"] = "Logística"; DICT.en["Logística"] = "Logistics";
+  DICT.es["Gerente"] = "Gerente"; DICT.en["Gerente"] = "Manager";
+  DICT.es["Analista"] = "Analista"; DICT.en["Analista"] = "Analyst";
+  DICT.es["Tecnologia"] = "Tecnología"; DICT.en["Tecnologia"] = "Technology";
+
+  // ── Textos da seção Hero / Brand strip ───────────────
+  DICT.es["Confiabilidade"] = "Confiabilidad";
+  DICT.es["Gestão de Ativos Rotativos"] = "Gestión de Activos Rotativos";
+
+  // ── Accordion / blocos de navegação ──────────────────
+  DICT.es["Visão Geral"] = "Visión General";
+  DICT.es["O Que Entregamos"] = "Qué Entregamos";
+  DICT.es["Ecossistema Digital"] = "Ecosistema Digital";
+  DICT.es["Modelos Contratuais"] = "Modelos Contractuales";
+  DICT.es["Clientes & Contratos Ativos"] = "Clientes y Contratos Activos";
+  DICT.es["Portais Rápidos"] = "Portales Rápidos";
+  DICT.es["Relatórios Power BI"] = "Informes Power BI";
+  DICT.es["Sistema de Gestão"] = "Sistema de Gestión";
+  DICT.es["Matriz de Contratos"] = "Matriz de Contratos";
+  DICT.es["Job Description"] = "Descripción de Puestos";
+  DICT.en["Visão Geral"] = "Overview";
+  DICT.en["O Que Entregamos"] = "What We Deliver";
+  DICT.en["Ecossistema Digital"] = "Digital Ecosystem";
+  DICT.en["Modelos Contratuais"] = "Contract Models";
+  DICT.en["Clientes & Contratos Ativos"] = "Clients & Active Contracts";
+  DICT.en["Portais Rápidos"] = "Quick Portals";
+  DICT.en["Relatórios Power BI"] = "Power BI Reports";
+  DICT.en["Sistema de Gestão"] = "Management System";
+  DICT.en["Matriz de Contratos"] = "Contract Matrix";
+  DICT.en["Job Description"] = "Job Description";
+
+  // ── Textos do hero inline ─────────────────────────────
+  DICT.es["Gestão de Ativos"] = "Gestión de Activos";
+  DICT.en["Gestão de Ativos"] = "Asset Management";
+
+  // ── Footer ────────────────────────────────────────────
+  DICT.es["Confiabilidade: Gestão de Ativos Rotativos · Documento Interno · 2025"] = "Confiabilidad: Gestión de Activos Rotativos · Documento Interno · 2025";
+  DICT.en["Confiabilidade: Gestão de Ativos Rotativos · Documento Interno · 2025"] = "Reliability: Rotating Assets Management · Internal Document · 2025";
+
+  // ── Textos de status de conexão (auth) ───────────────
+  DICT.es["⟳ Conectando à planilha…"] = "⟳ Conectando a la hoja…";
+  DICT.es["● Planilha conectada"] = "● Hoja conectada";
+  DICT.es["⚠ Cache local ativo"] = "⚠ Caché local activo";
+  DICT.es["✗ Sem conexão com a planilha"] = "✗ Sin conexión con la hoja";
+  DICT.en["⟳ Conectando à planilha…"] = "⟳ Connecting to spreadsheet…";
+  DICT.en["● Planilha conectada"] = "● Spreadsheet connected";
+  DICT.en["⚠ Cache local ativo"] = "⚠ Local cache active";
+  DICT.en["✗ Sem conexão com a planilha"] = "✗ No connection to spreadsheet";
+
   const ATTRS = ["aria-label","title","placeholder","alt","value"];
 
-  function setActive(lang){
-    document.querySelectorAll('#langSwitch .lang-btn').forEach(b=>{
-      b.classList.toggle('is-active', b.dataset.lang === lang);
-      b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true':'false');
-    });
-  }
+  /* ── Estado do snapshot ──────────────────────────────────── */
+  var _textSnap    = [];          // [{node, orig}]
+  var _attrSnap    = [];          // [{el, attr, orig}]
+  var _snapNodeSet = new WeakSet(); // nós de texto já snapshotados
+  var _attrSnapMap = new WeakMap(); // el → Set<attr> já snapshotados
+  var _currentLang = 'pt';
 
-  function translateTextNode(node, map){
-    const raw = node.nodeValue;
-    const trimmed = raw.trim();
-    if(!trimmed) return;
-    const repl = map[trimmed];
-    if(!repl) return;
-
-    // preserve leading/trailing whitespace
-    const lead = raw.match(/^\s*/)?.[0] || "";
-    const trail = raw.match(/\s*$/)?.[0] || "";
-    node.nodeValue = lead + repl + trail;
-  }
-
-  function translateAttributes(el, map){
-    ATTRS.forEach(a=>{
-      const v = el.getAttribute(a);
-      if(!v) return;
-      const t = v.trim();
-      const repl = map[t];
-      if(!repl) return;
-      el.setAttribute(a, repl);
-    });
-  }
-
-  function apply(lang){
-    const map = (lang === "pt") ? null : (DICT[lang] || null);
-
-    // If PT: reload original texts by hard refresh of the document (safe and complete)
-    if(lang === "pt"){
-      try{ localStorage.setItem('portal_lang','pt'); }catch(e){}
-      // quick UX: if already pt, do nothing
-      if(document.documentElement.getAttribute('data-lang-applied') === 'pt') {
-        setActive('pt');
-        return;
-      }
-      location.reload();
-      return;
-    }
-
-    // translate document title if we can
-    if(map["Chesterton | Confiabilidade: Gestão de Ativos Rotativos"]) {
-      document.title = map["Chesterton | Confiabilidade: Gestão de Ativos Rotativos"];
-    }
-
-    // translate text nodes
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-      acceptNode: function(n){
-        if(!n.parentElement) return NodeFilter.FILTER_REJECT;
-        const tag = n.parentElement.tagName;
-        if(tag === "SCRIPT" || tag === "STYLE" || tag === "NOSCRIPT") return NodeFilter.FILTER_REJECT;
+  /* ── Captura/expande snapshot dos textos PT originais ──── */
+  function captureSnapshot() {
+    // Captura textos PT de nós NOVOS (ainda não snapshotados)
+    // Se estamos em PT: todos os nós têm texto PT → ok
+    // Se estamos em ES/EN: nós antigos já estão no snapshot; nós novos
+    //   gerados por templates ainda têm PT → também ok
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(n) {
+        if (!n.parentElement) return NodeFilter.FILTER_REJECT;
+        var tag = n.parentElement.tagName;
+        if (tag === "SCRIPT" || tag === "STYLE" || tag === "NOSCRIPT") return NodeFilter.FILTER_REJECT;
         return NodeFilter.FILTER_ACCEPT;
       }
     });
-    const textNodes = [];
-    while(walker.nextNode()) textNodes.push(walker.currentNode);
-    textNodes.forEach(n=>translateTextNode(n, map));
-
-    // translate attributes
-    document.querySelectorAll('*').forEach(el=>translateAttributes(el, map));
-
-    document.documentElement.setAttribute('lang', lang === 'es' ? 'es' : 'en');
-    document.documentElement.setAttribute('data-lang-applied', lang);
-    setActive(lang);
-    try{ localStorage.setItem('portal_lang', lang); }catch(e){}
+    while (walker.nextNode()) {
+      var n = walker.currentNode;
+      if (!_snapNodeSet.has(n) && n.nodeValue && n.nodeValue.trim()) {
+        _textSnap.push({node: n, orig: n.nodeValue});
+        _snapNodeSet.add(n);
+      }
+    }
+    // Captura atributos
+    document.querySelectorAll('*').forEach(function(el) {
+      ATTRS.forEach(function(a) {
+        var v = el.getAttribute(a);
+        if (!v || !v.trim()) return;
+        var elSnapped = _attrSnapMap.get(el);
+        if (!elSnapped) { elSnapped = new Set(); _attrSnapMap.set(el, elSnapped); }
+        if (!elSnapped.has(a)) {
+          _attrSnap.push({el: el, attr: a, orig: v});
+          elSnapped.add(a);
+        }
+      });
+    });
   }
 
-  // Expose apply globally so dynamic content builders can re-trigger translation
+  /* ── Restaura todos os textos para PT (a partir do snapshot) */
+  function restorePT() {
+    _textSnap.forEach(function(item) {
+      try { item.node.nodeValue = item.orig; } catch(e) {}
+    });
+    _attrSnap.forEach(function(item) {
+      try { item.el.setAttribute(item.attr, item.orig); } catch(e) {}
+    });
+    document.title = 'Chesterton | Confiabilidade: Gestão de Ativos Rotativos';
+  }
+
+  /* ── Aplica tradução ES/EN sobre os textos PT do snapshot ── */
+  function applyTranslation(lang) {
+    var map = DICT[lang];
+    if (!map) return;
+    _textSnap.forEach(function(item) {
+      var trimmed = item.orig.trim();
+      var repl = map[trimmed];
+      if (!repl) return;
+      var lead  = item.orig.match(/^\s*/)[0];
+      var trail = item.orig.match(/\s*$/)[0];
+      try { item.node.nodeValue = lead + repl + trail; } catch(e) {}
+    });
+    _attrSnap.forEach(function(item) {
+      var trimmed = item.orig.trim();
+      var repl = map[trimmed];
+      if (!repl) return;
+      try { item.el.setAttribute(item.attr, repl); } catch(e) {}
+    });
+    if (map["Chesterton | Confiabilidade: Gestão de Ativos Rotativos"]) {
+      document.title = map["Chesterton | Confiabilidade: Gestão de Ativos Rotativos"];
+    }
+  }
+
+  /* ── Atualiza estilo visual dos botões de idioma ─────────── */
+  function setActive(lang) {
+    // Topbar buttons
+    document.querySelectorAll('#langSwitch .lang-btn').forEach(function(b) {
+      var isActive = b.dataset.lang === lang;
+      b.classList.toggle('is-active', isActive);
+      b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      b.style.opacity = isActive ? '1' : '0.45';
+      b.style.fontWeight = isActive ? '700' : '400';
+    });
+    // Login buttons
+    document.querySelectorAll('.login-lang-btn').forEach(function(b) {
+      var isActive = b.dataset.lang === lang;
+      b.style.background  = isActive ? 'rgba(245,194,0,0.15)' : 'transparent';
+      b.style.color       = isActive ? '#F5C200' : 'rgba(255,255,255,0.4)';
+      b.style.borderColor = isActive ? 'rgba(245,194,0,0.4)' : 'rgba(255,255,255,0.12)';
+      b.style.fontWeight  = isActive ? '700' : '400';
+    });
+  }
+
+  /* ── Função principal de troca de idioma ────────────────── */
+  function apply(lang) {
+    // 1. Captura/expande snapshot antes de qualquer alteração
+    captureSnapshot();
+    // 2. Restaura PT como baseline
+    restorePT();
+    // 3. Se não for PT, aplica tradução
+    if (lang !== 'pt') {
+      applyTranslation(lang);
+    }
+    // 4. Atualiza estado
+    _currentLang = lang;
+    document.documentElement.setAttribute('lang',
+      lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es-419' : 'en');
+    document.documentElement.setAttribute('data-lang-applied', lang);
+    setActive(lang);
+    try { localStorage.setItem('portal_lang', lang); } catch(e) {}
+    // 5. Sincroniza login lang (sem reload)
+    if (typeof window.applyLoginLang === 'function') {
+      window.applyLoginLang(lang);
+    }
+  }
+
+  // Helper global: traduz uma string PT para o idioma atual
+  window.i18nT = function(ptText) {
+    if (_currentLang === 'pt') return ptText;
+    var map = DICT[_currentLang];
+    return (map && map[ptText]) ? map[ptText] : ptText;
+  };
+  window.i18nGetLang = function() { return _currentLang; };
+
+  // Expõe apply globalmente para conteúdo dinâmico
   window.i18nApply = apply;
 
-  window.addEventListener('DOMContentLoaded', function(){
-    document.querySelectorAll('#langSwitch .lang-btn').forEach(btn=>{
-      btn.addEventListener('click', function(){ apply(this.dataset.lang); });
+  window.addEventListener('DOMContentLoaded', function() {
+    // Bind botões do topbar
+    document.querySelectorAll('#langSwitch .lang-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { apply(this.dataset.lang); });
     });
-    const saved = (function(){ try{ return localStorage.getItem('portal_lang'); }catch(e){ return null; } })();
+    // Nota: botões .login-lang-btn são gerenciados pelo módulo LOGIN_LANG_SWITCH
+    // que já chama window.i18nApply(lang) — evitamos double-bind aqui.
+    // Captura snapshot inicial (todos textos estão em PT)
+    captureSnapshot();
+    // Aplica idioma salvo
+    var saved;
+    try { saved = localStorage.getItem('portal_lang'); } catch(e) {}
     setActive(saved || 'pt');
-    if(saved && saved !== 'pt') apply(saved);
-    else document.documentElement.setAttribute('data-lang-applied','pt');
+    if (saved && saved !== 'pt') {
+      apply(saved);
+    } else {
+      _currentLang = 'pt';
+      document.documentElement.setAttribute('data-lang-applied', 'pt');
+    }
   });
 })();
 </script>
@@ -2336,7 +2512,7 @@ function sgaCopySecret() {
   const raw = el.dataset.raw || el.textContent.replace(/\s/g, '');
   navigator.clipboard.writeText(raw).then(() => {
     const btn = document.querySelector('.sga-copy-btn');
-    if (btn) { btn.textContent = '✅ Copiado!'; setTimeout(() => { btn.textContent = '📋 Copiar'; }, 2000); }
+    if (btn) { const t = window.i18nT || function(s){return s;}; btn.textContent = t('✅ Copiado!'); setTimeout(() => { btn.textContent = t('📋 Copiar'); }, 2000); }
   }).catch(() => { prompt('Copie a chave secreta:', raw); });
 }
 
@@ -2373,9 +2549,10 @@ function sgaToggleQR() {
   const btn   = document.getElementById('sga-qr-hide-btn');
   const lbl   = document.getElementById('sga-qr-toggle-label');
   if (!panel) return;
+  const t = window.i18nT || function(s){ return s; };
   panel.classList.toggle('hidden', !_sgaQRVisible);
-  btn.textContent = _sgaQRVisible ? 'Ocultar' : 'Mostrar';
-  lbl.textContent = _sgaQRVisible ? '✅ Já escaneei — ocultar QR Code' : '📱 Mostrar QR Code novamente';
+  btn.textContent = _sgaQRVisible ? t('Ocultar') : t('Mostrar');
+  lbl.textContent = _sgaQRVisible ? t('✅ Já escaneei — ocultar QR Code') : t('📱 Mostrar QR Code novamente');
 }
 
 /* ── Digit input UX ── */
@@ -2448,8 +2625,9 @@ function sgaShowStep2(email, totpSecret) {
   if (panel) panel.classList.remove('hidden');
   const btn = document.getElementById('sga-qr-hide-btn');
   const lbl = document.getElementById('sga-qr-toggle-label');
-  if (btn) btn.textContent = 'Ocultar';
-  if (lbl) lbl.textContent = '✅ Já escaneei — ocultar QR Code';
+  const _ti = window.i18nT || function(s){return s;};
+  if (btn) btn.textContent = _ti('Ocultar');
+  if (lbl) lbl.textContent = _ti('✅ Já escaneei — ocultar QR Code');
 
   sgaClearDigits();
   sgaStartTimer();
@@ -2487,13 +2665,15 @@ async function sgaHandleTOTP() {
       sgaGrantAccess(window._sgaPendingEmail);
     } else {
       sgaShakeDigits();
-      errEl.textContent = '⚠️ Código inválido ou expirado. Aguarde o próximo e tente novamente.';
+      const _t = window.i18nT || function(s){return s;};
+      errEl.textContent = _t('⚠️ Código inválido ou expirado. Aguarde o próximo e tente novamente.');
       errEl.style.display = 'block';
       setTimeout(() => { sgaClearDigits(); document.getElementById('sgd0').focus(); }, 600);
     }
   } catch(e) {
     console.error(e);
-    errEl.textContent = '⚠️ Erro ao verificar código. Tente novamente.';
+    const _t2 = window.i18nT || function(s){return s;};
+    errEl.textContent = _t2('⚠️ Erro ao verificar código. Tente novamente.');
     errEl.style.display = 'block';
   } finally {
     loadEl.style.display = 'none';
