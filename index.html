@@ -2104,6 +2104,26 @@ footer{
   DICT.en["⚠ Cache local ativo"] = "⚠ Local cache active";
   DICT.en["✗ Sem conexão com a planilha"] = "✗ No connection to spreadsheet";
 
+  // ── Rail lateral + módulos Vídeos e Documentação (redesign) ──
+  DICT.es["Início"] = "Inicio";                          DICT.en["Início"] = "Home";
+  DICT.es["Equipe"] = "Equipo";                          DICT.en["Equipe"] = "Team";
+  DICT.es["Relatórios"] = "Reportes";                    DICT.en["Relatórios"] = "Reports";
+  DICT.es["Sistemas"] = "Sistemas";                      DICT.en["Sistemas"] = "Systems";
+  DICT.es["Matriz"] = "Matriz";                          DICT.en["Matriz"] = "Matrix";
+  DICT.es["Vídeos"] = "Videos";                          DICT.en["Vídeos"] = "Videos";
+  DICT.es["Documentação"] = "Documentación";             DICT.en["Documentação"] = "Documentation";
+  DICT.es["Manuais PSG"] = "Manuales PSG";               DICT.en["Manuais PSG"] = "PSG Manuals";
+  DICT.es["Tópicos"] = "Temas";                          DICT.en["Tópicos"] = "Topics";
+  DICT.es["Baixar em Word"] = "Descargar en Word";       DICT.en["Baixar em Word"] = "Download as Word";
+  DICT.es["Manual SGA"] = "Manual SGA";                  DICT.en["Manual SGA"] = "SGA Manual";
+  DICT.es["Sistema de Gestão"] = "Sistema de Gestión";   DICT.en["Sistema de Gestão"] = "Management System";
+  DICT.es["TAG NFC"] = "TAG NFC";                        DICT.en["TAG NFC"] = "NFC Tag";
+  DICT.es["Identificação"] = "Identificación";           DICT.en["Identificação"] = "Identification";
+  DICT.es["Rota de Inspeção"] = "Ruta de Inspección";    DICT.en["Rota de Inspeção"] = "Inspection Route";
+  DICT.es["Inspeção de campo"] = "Inspección de campo";  DICT.en["Inspeção de campo"] = "Field inspection";
+  DICT.es["Treinamentos · Vídeos"] = "Capacitaciones · Videos"; DICT.en["Treinamentos · Vídeos"] = "Training · Videos";
+  DICT.es["Carregando"] = "Cargando";                    DICT.en["Carregando"] = "Loading";
+
   const ATTRS = ["aria-label","title","placeholder","alt","value"];
 
   /* ── Estado do snapshot ──────────────────────────────────── */
@@ -5616,17 +5636,24 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.setAttribute('aria-label', it.label);
       btn.innerHTML = '<span class="rail-ico">' + it.icon + '</span><span class="rail-lbl">' + it.label + '</span><span class="rail-tip">' + it.label + '</span>';
       btn.addEventListener('click', function() {
-        // Fecha quaisquer overlays abertos antes de navegar
+        // Fecha os overlays de vídeos/docs (não o modal de seção — openSectionModal já faz a troca)
         if (typeof window.closeVideosModule === 'function') window.closeVideosModule();
         if (typeof window.closeDocsModule === 'function') window.closeDocsModule();
-        if (it.key !== '__videos' && it.key !== '__docs' && typeof window.closeSectionModal === 'function') window.closeSectionModal();
 
         if (it.key === '__home') {
+          if (typeof window.closeSectionModal === 'function') window.closeSectionModal();
           window.scrollTo({ top: 0, behavior: 'smooth' });
           activate(btn); return;
         }
-        if (it.key === '__videos') { activate(btn); if (window.openVideosModule) window.openVideosModule(); return; }
-        if (it.key === '__docs')   { activate(btn); if (window.openDocsModule)   window.openDocsModule();   return; }
+        if (it.key === '__videos') {
+          if (typeof window.closeSectionModal === 'function') window.closeSectionModal();
+          activate(btn); if (window.openVideosModule) window.openVideosModule(); return;
+        }
+        if (it.key === '__docs') {
+          if (typeof window.closeSectionModal === 'function') window.closeSectionModal();
+          activate(btn); if (window.openDocsModule) window.openDocsModule(); return;
+        }
+        // Módulo de seção: openSectionModal substitui o conteúdo sem fechar antes (evita o clear diferido apagar o novo conteúdo)
         activate(btn);
         openSectionModal(it.key, it.full || it.label, it.tag || 'Portal');
       });
@@ -5802,8 +5829,11 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.classList.remove('modal-visible');
     modalBox.classList.remove('modal-visible');
     document.body.style.overflow = '';
-    // Clear content after transition
+    // Clear content after transition — só limpa se o modal continuar fechado
+    // (evita apagar um módulo reaberto em seguida pela navegação do rail)
     setTimeout(function() {
+      var box = document.getElementById('section-modal-box');
+      if (box && box.classList.contains('modal-visible')) return;
       var contentArea = document.getElementById('modal-content-area');
       if (contentArea) contentArea.innerHTML = '';
     }, 350);
@@ -6245,6 +6275,8 @@ body.has-rail #video-overlay{ left:var(--rail-w); }
 body.has-rail #docs-overlay{ left:var(--rail-w); }
 
 /* ===== VIDEOS AS CENTERED MODAL ===== */
+/* Player de vídeo precisa ficar ACIMA do modal de vídeos (backdrop 8150 / bar 8200) */
+#video-overlay{ z-index:8700 !important; }
 #training-bar{ display:none; }
 #videos-backdrop{ display:none; position:fixed; inset:0; z-index:8150; background:rgba(5,7,12,.9); backdrop-filter:blur(10px); }
 body.videos-open #videos-backdrop{ display:block; }
@@ -6370,6 +6402,8 @@ body.videos-open #videos-modal-head{ display:flex; align-items:center; justify-c
     document.body.classList.add('videos-open');
     document.body.style.overflow = 'hidden';
     if(window.trainingBackToLang) window.trainingBackToLang();
+    // Traduz o cabeçalho/nós recém-criados para o idioma atual
+    try{ var lg = window.i18nGetLang && window.i18nGetLang(); if(lg && lg!=='pt' && window.i18nApply) window.i18nApply(lg); }catch(e){}
   };
   window.closeVideosModule = function(){
     document.body.classList.remove('videos-open');
@@ -6489,6 +6523,10 @@ body.videos-open #videos-modal-head{ display:flex; align-items:center; justify-c
       });
   }
 
+  function reapplyLang(){
+    try{ var lg = window.i18nGetLang && window.i18nGetLang(); if(lg && lg!=='pt' && window.i18nApply) window.i18nApply(lg); }catch(e){}
+  }
+
   window.openDocsModule = function(){
     document.body.classList.add('docs-open');
     var ov = el('docs-overlay');
@@ -6496,6 +6534,8 @@ body.videos-open #videos-modal-head{ display:flex; align-items:center; justify-c
     document.body.style.overflow = 'hidden';
     if(el('docs-tabs') && !el('docs-tabs').children.length) buildTabs();
     if(!current) selectDoc(DOCS[0].key);
+    // Traduz rótulos das abas / UI recém-criados para o idioma atual
+    reapplyLang();
   };
   window.closeDocsModule = function(){
     var ov = el('docs-overlay');
