@@ -1266,8 +1266,56 @@ footer{
 
 /* Video main */
 .vov-main { flex: 1; display: flex; flex-direction: column; background: #000; overflow: hidden; }
-#vov-iframe-wrap { flex: 1; position: relative; }
-#vov-iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+#vov-iframe-wrap { flex: 1; position: relative; overflow: hidden; }
+#vov-iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: none;
+  transform: scale(var(--vov-zoom, 1));
+  transform-origin: center center;
+  transition: transform 0.18s ease;
+}
+/* Máscara que cobre o botão "abrir no Google Drive" (canto superior direito) */
+.vov-iframe-mask {
+  position: absolute; top: 0; right: 0;
+  width: 70px; height: 50px;
+  background: #000;
+  z-index: 4; pointer-events: auto; cursor: default;
+}
+/* Barra de zoom interna — tudo roda dentro do frame */
+.vov-zoombar {
+  position: absolute; bottom: 14px; right: 14px;
+  display: flex; align-items: center; gap: 4px;
+  background: rgba(10,13,20,0.82);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px; padding: 4px;
+  z-index: 5; backdrop-filter: blur(6px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.vov-zoombar button {
+  width: 30px; height: 30px; border: none; border-radius: 7px;
+  background: rgba(255,255,255,0.06); color: var(--white2);
+  font-size: 16px; font-weight: 700; cursor: pointer; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-family: inherit; transition: background 0.15s ease;
+}
+.vov-zoombar button:hover { background: rgba(212,168,67,0.25); color: var(--gold); }
+.vov-zoombar .vov-zoom-level {
+  min-width: 42px; text-align: center; font-size: 11px;
+  font-family: "Space Mono", monospace; color: var(--white2); letter-spacing: 0.5px;
+}
+.vov-internal-note {
+  position: absolute; bottom: 14px; left: 14px;
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(10,13,20,0.78);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 8px; padding: 5px 10px;
+  z-index: 5; backdrop-filter: blur(6px);
+  font-family: "Space Mono", monospace; font-size: 9.5px;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--muted);
+}
+.vov-internal-note::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); box-shadow: 0 0 6px var(--gold);
+}
 #vov-no-link {
   display: none; flex: 1;
   align-items: center; justify-content: center;
@@ -1485,6 +1533,17 @@ footer{
           allowfullscreen
           src="about:blank">
         </iframe>
+        <!-- Cobre o botão de abrir no Google Drive: reprodução só dentro do portal -->
+        <div class="vov-iframe-mask" aria-hidden="true"></div>
+        <!-- Nota: tudo roda aqui dentro -->
+        <div class="vov-internal-note" title="Reprodução interna do portal">Reprodução interna</div>
+        <!-- Zoom dentro do próprio frame -->
+        <div class="vov-zoombar" role="group" aria-label="Zoom do vídeo">
+          <button type="button" onclick="vovZoom(-1)" aria-label="Diminuir zoom" title="Diminuir">−</button>
+          <span class="vov-zoom-level" id="vov-zoom-level">100%</span>
+          <button type="button" onclick="vovZoom(1)" aria-label="Aumentar zoom" title="Aumentar">+</button>
+          <button type="button" onclick="vovZoom(0)" aria-label="Restaurar zoom" title="Restaurar" style="font-size:12px;">⟳</button>
+        </div>
       </div>
       <div id="vov-no-link">
         <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
@@ -2123,6 +2182,9 @@ footer{
   DICT.es["Inspeção de campo"] = "Inspección de campo";  DICT.en["Inspeção de campo"] = "Field inspection";
   DICT.es["Treinamentos · Vídeos"] = "Capacitaciones · Videos"; DICT.en["Treinamentos · Vídeos"] = "Training · Videos";
   DICT.es["Carregando"] = "Cargando";                    DICT.en["Carregando"] = "Loading";
+  DICT.es["SGA Demo — Multilíngue"] = "SGA Demo — Multilingüe";  DICT.en["SGA Demo — Multilíngue"] = "SGA Demo — Multilingual";
+  DICT.es["Acesso livre · EN · FR · ES · PT"] = "Acceso libre · EN · FR · ES · PT";  DICT.en["Acesso livre · EN · FR · ES · PT"] = "Open access · EN · FR · ES · PT";
+  DICT.es["Reprodução interna"] = "Reproducción interna";  DICT.en["Reprodução interna"] = "Internal playback";
 
   const ATTRS = ["aria-label","title","placeholder","alt","value"];
 
@@ -3914,6 +3976,16 @@ document.addEventListener('DOMContentLoaded', () => {
 (function() {
   const sistemas = [
     {
+      id: 'demo-multilang',
+      label: 'SGA Demo — Multilíngue',
+      sub: 'Acesso livre · EN · FR · ES · PT',
+      color: '#d4a843',
+      icon: '★',
+      featured: true,
+      badge: 'DEMO',
+      url: 'https://www.appsheet.com/start/5eaf5f46-2391-4be3-a039-538138b733c7'
+    },
+    {
       id: 'klabin-selo',
       label: 'Klabin Monte Alegre',
       sub: 'Selo Mecânico',
@@ -4183,6 +4255,31 @@ document.addEventListener('DOMContentLoaded', () => {
       min-height: 58px;
     }
     .sga-card::before { display: none; }
+    /* ── Destaque sutil: SGA Demo multilíngue ── */
+    .sga-card-featured {
+      border: 1px solid rgba(212,168,67,0.55);
+      border-left: 3px solid var(--card-color, #d4a843);
+      background: linear-gradient(135deg, rgba(212,168,67,0.10) 0%, rgba(212,168,67,0.03) 100%);
+      box-shadow: 0 0 0 1px rgba(212,168,67,0.14), 0 6px 22px rgba(212,168,67,0.10);
+    }
+    .sga-card-featured:hover {
+      border-color: rgba(212,168,67,0.85);
+      box-shadow: 0 0 0 1px rgba(212,168,67,0.28), 0 8px 26px rgba(212,168,67,0.18);
+    }
+    .sga-card-badge {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #1a1204;
+      background: linear-gradient(135deg, #e6c25a 0%, #d4a843 100%);
+      padding: 2px 7px;
+      border-radius: 6px;
+      z-index: 2;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
     .sga-card:hover {
       border-color: var(--card-color, #0e9e5a);
       background: rgba(255,255,255,0.06);
@@ -4304,9 +4401,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sistemas.forEach((s) => {
     const card = document.createElement('div');
-    card.className = 'sga-card';
+    card.className = 'sga-card' + (s.featured ? ' sga-card-featured' : '');
     card.style.setProperty('--card-color', s.color);
     card.innerHTML = `
+      ${s.badge ? `<span class="sga-card-badge">${s.badge}</span>` : ''}
       <div class="sga-card-avatar" style="background:${s.color}">${s.icon}</div>
       <div class="sga-card-info">
         <div class="sga-card-name">${s.label}</div>
@@ -6042,6 +6140,25 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function el(id) { return document.getElementById(id); }
 
+  /* ─── Zoom interno do frame (sem sair do portal) ─── */
+  var _vovZoom = 1;
+  var VOV_ZOOM_MIN = 1, VOV_ZOOM_MAX = 2.2, VOV_ZOOM_STEP = 0.15;
+  function _vovApplyZoom() {
+    var iframe = el('vov-iframe');
+    var lvl    = el('vov-zoom-level');
+    if (iframe) iframe.style.setProperty('--vov-zoom', String(_vovZoom));
+    if (lvl)    lvl.textContent = Math.round(_vovZoom * 100) + '%';
+  }
+  window.vovZoom = function (dir) {
+    if (dir === 0) { _vovZoom = 1; }
+    else {
+      _vovZoom = Math.min(VOV_ZOOM_MAX, Math.max(VOV_ZOOM_MIN, _vovZoom + dir * VOV_ZOOM_STEP));
+      _vovZoom = Math.round(_vovZoom * 100) / 100;
+    }
+    _vovApplyZoom();
+  };
+  window.vovZoomReset = function () { _vovZoom = 1; _vovApplyZoom(); };
+
   /* ─── Toggle bar open/close ───────────────────── */
   window.trainingToggle = function () {
     _barOpen = !_barOpen;
@@ -6144,6 +6261,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var noLink    = el('vov-no-link');
     var iframeWrap = el('vov-iframe-wrap');
     var url = embedUrl(v.id);
+    if (window.vovZoomReset) window.vovZoomReset();
     if (url) {
       if (iframe) iframe.src = url;
       if (iframeWrap) iframeWrap.style.flex = '1';
@@ -6423,9 +6541,9 @@ body.videos-open #videos-modal-head{ display:flex; align-items:center; justify-c
 /* ═══ MÓDULO DOCUMENTAÇÃO (fetch dinâmico + marked.js) ═══ */
 (function(){
   var DOCS = [
-    { key:'sga',  name:'Manual SGA',        sub:'Sistema de Gestão',   file:'SGA_Documentacao_autocontido.md',           drive:'https://drive.google.com/drive/folders/1OW8ee9LdIZgdAawY58bWSK0kxuLc8qXV' },
-    { key:'nfc',  name:'TAG NFC',           sub:'Identificação',       file:'NFC_Documentacao_autocontido.md',           drive:'https://drive.google.com/drive/folders/1CdsQUxUdUFgtd9gucGQS_w7bPQCYcUia' },
-    { key:'rota', name:'Rota de Inspeção',  sub:'Inspeção de campo',   file:'Rota_Inspecao_Documentacao_autocontido.md', drive:'https://drive.google.com/drive/folders/1_1YFn_-4aLT8PVYlcpm_9L9NZynR2RPH' }
+    { key:'sga',  name:'Manual SGA',        sub:'Sistema de Gestão',   file:'SGA_ES_Documentacao_autocontido.md',           drive:'https://drive.google.com/drive/folders/1OW8ee9LdIZgdAawY58bWSK0kxuLc8qXV' },
+    { key:'nfc',  name:'TAG NFC',           sub:'Identificação',       file:'NFC_ES_Documentacion_autocontido.md',          drive:'https://drive.google.com/drive/folders/1CdsQUxUdUFgtd9gucGQS_w7bPQCYcUia' },
+    { key:'rota', name:'Rota de Inspeção',  sub:'Inspeção de campo',   file:'Ruta_Inspeccion_Documentacion_autocontido.md', drive:'https://drive.google.com/drive/folders/1_1YFn_-4aLT8PVYlcpm_9L9NZynR2RPH' }
   ];
   var cache = {};
   var current = null;
